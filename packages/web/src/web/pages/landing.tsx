@@ -1,5 +1,12 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, useReducedMotion } from "framer-motion";
+import {
+  CinematicTitle,
+  InteractiveLink,
+  ParallaxVisual,
+  ScrollProgress,
+  SteamAtmosphere,
+} from "../components/motion-experience";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -16,7 +23,6 @@ import {
   MapPin,
   Clock3,
   Check,
-  MoveHorizontal,
   ChevronDown,
   Droplets,
   MessageCircle,
@@ -63,13 +69,16 @@ function Reveal({
   className?: string;
   delay?: number;
 }) {
+  const reduced = useReducedMotion();
+  const [revealed, setRevealed] = useState(false);
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      className={`${className} motion-reveal ${revealed ? "is-revealed" : ""}`}
+      onViewportEnter={() => setRevealed(true)}
+      initial={reduced ? false : { opacity: 0, y: 60, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: 0.55, delay }}
+      transition={{ type: "spring", stiffness: 85, damping: 19, delay }}
     >
       {children}
     </motion.div>
@@ -85,16 +94,11 @@ function WAButton({
   text?: string;
 }) {
   return (
-    <a
-      className={`button primary ${className}`}
-      href={whatsapp(text)}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <InteractiveLink className={`button primary ${className}`} href={whatsapp(text)}>
       <MessageCircle size={20} />
-      {children}
+      <span className="button-label">{children}</span>
       <ArrowUpRight size={20} />
-    </a>
+    </InteractiveLink>
   );
 }
 function Brand() {
@@ -107,7 +111,6 @@ function Brand() {
 
 export default function Landing() {
   const [menu, setMenu] = useState(false);
-  const [compare, setCompare] = useState(48);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [service, setService] = useState("Sanificazione a vapore");
   const [name, setName] = useState("");
@@ -122,6 +125,7 @@ export default function Landing() {
   return (
     <MotionConfig reducedMotion="user">
       <div id="home">
+        <ScrollProgress />
         <a className="skip-link" href="#servizi">
           Vai al contenuto
         </a>
@@ -135,7 +139,6 @@ export default function Landing() {
               {[
                 ["Servizi", "servizi"],
                 ["Perché il vapore", "vantaggi"],
-                ["Prima & dopo", "risultati"],
                 ["Contatti", "contatti"],
               ].map(([label, id]) => (
                 <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
@@ -163,6 +166,7 @@ export default function Landing() {
           <section className="hero">
             <div className="steam steam-one" />
             <div className="steam steam-two" />
+            <SteamAtmosphere />
             <div className="container hero-grid">
               <div className="hero-copy">
                 <motion.div
@@ -173,21 +177,11 @@ export default function Landing() {
                   <span className="live-dot" />
                   SANIFICAZIONE & PULIZIA A VAPORE A CASARANO
                 </motion.div>
-                <motion.h1
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.1 }}
-                >
-                  Igiene profonda.
-                  <br />
-                  <span>Pulizia a vapore.</span>
-                  <br />
-                  Ambienti da vivere.
-                </motion.h1>
+                <CinematicTitle />
                 <motion.div
                   initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.25 }}
+                  transition={{ duration: 0.7, delay: 0.55 }}
                 >
                   <p className="hero-description">
                     Il benessere dei tuoi spazi comincia da qui. Pulizia e sanificazione
@@ -211,12 +205,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-              <motion.div
-                className="hero-visual"
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
+              <ParallaxVisual>
                 <div className="photo-frame">
                   <img
                     src="/images/hero.webp"
@@ -257,7 +246,7 @@ export default function Landing() {
                   </span>
                 </div>
                 <span className="image-caption">Immagine illustrativa</span>
-              </motion.div>
+              </ParallaxVisual>
             </div>
           </section>
 
@@ -300,14 +289,13 @@ export default function Landing() {
               </Reveal>
               <div className="service-grid">
                 {services.map((s, i) => (
-                  <Reveal key={s.title} delay={i * 0.06}>
-                    <a
+                  <Reveal key={s.title} delay={i * 0.11}>
+                    <InteractiveLink
                       className="service-card"
+                      tilt
                       href={whatsapp(
                         `Ciao Wash Vapor Line! Vorrei un preventivo gratuito per ${s.title.toLowerCase()}.`,
                       )}
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       <div className="service-top">
                         <span className="service-icon">
@@ -324,7 +312,7 @@ export default function Landing() {
                           <ArrowUpRight size={21} />
                         </span>
                       </div>
-                    </a>
+                    </InteractiveLink>
                   </Reveal>
                 ))}
               </div>
@@ -387,68 +375,6 @@ export default function Landing() {
                 L’efficacia del trattamento dipende da temperatura, tempo di contatto e superficie.
                 Valutiamo sempre la compatibilità dei materiali prima dell’intervento.
               </p>
-            </div>
-          </section>
-
-          <section id="risultati" className="section results">
-            <div className="container result-grid">
-              <Reveal className="result-copy">
-                <span className="eyebrow">PRIMA & DOPO</span>
-                <h2>
-                  Il cambiamento?
-                  <br />
-                  <span>Si vede. Si sente.</span>
-                </h2>
-                <p>
-                  Riscopri il piacere di un ambiente fresco e curato. Dal tessuto del tuo divano
-                  alle superfici di casa, ogni dettaglio conta.
-                </p>
-                <div className="comparison-instruction">
-                  <MoveHorizontal size={21} />
-                  <span>Trascina il cursore e scopri la differenza</span>
-                </div>
-                <p className="demo-note">
-                  Confronto dimostrativo con immagine ed effetti visivi: non rappresenta un
-                  intervento reale né garantisce un risultato.
-                </p>
-                <a className="text-link" href="#contatti">
-                  Dai nuova vita ai tuoi ambienti
-                  <ArrowUpRight size={18} />
-                </a>
-              </Reveal>
-              <Reveal>
-                <div className="comparison">
-                  <img
-                    src="/images/treatment.webp"
-                    alt="Superficie di un divano, simulazione visiva dopo la pulizia"
-                    loading="lazy"
-                    width="1400"
-                    height="933"
-                  />
-                  <div
-                    className="before-image"
-                    style={{ clipPath: `inset(0 ${100 - compare}% 0 0)` }}
-                  >
-                    <img src="/images/treatment.webp" alt="" loading="lazy" />
-                  </div>
-                  <span className="compare-label before-label">PRIMA</span>
-                  <span className="compare-label after-label">DOPO</span>
-                  <div className="comparison-line" style={{ left: `${compare}%` }}>
-                    <span>
-                      <MoveHorizontal size={23} />
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="95"
-                    value={compare}
-                    onChange={(e) => setCompare(Number(e.target.value))}
-                    aria-label="Confronto dimostrativo prima e dopo"
-                  />
-                  <span className="demo-badge">SIMULAZIONE VISIVA</span>
-                </div>
-              </Reveal>
             </div>
           </section>
 

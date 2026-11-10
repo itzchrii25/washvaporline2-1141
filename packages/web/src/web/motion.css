@@ -1,0 +1,510 @@
+/* Wash Vapor Line: motion is depth, steam and light — never a loading barrier. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #087bc8, #00cbef);
+  transform-origin: 0 50%;
+  z-index: 90;
+  box-shadow: 0 0 12px #00a8e870;
+  pointer-events: none;
+}
+.hero .cinematic-title span {
+  color: inherit;
+}
+.hero .cinematic-title .blue-line {
+  color: var(--blue);
+}
+.cinematic-title .title-line {
+  display: block;
+  white-space: nowrap;
+}
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.title-word {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+.blue-line .title-word {
+  background: linear-gradient(105deg, #087ed0 10%, #00b9e8 50%, #087ed0 90%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-tide 7s ease-in-out infinite;
+}
+.steam-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.steam-particle {
+  position: absolute;
+  display: block;
+  border: 1px solid #48b5e72e;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #ffffffa0, #80d7ff10);
+  animation: particle-rise 11s ease-in-out infinite;
+  opacity: 0;
+}
+.particle-0 {
+  width: 10px;
+  height: 10px;
+}
+.particle-1 {
+  width: 24px;
+  height: 24px;
+}
+.particle-2 {
+  width: 5px;
+  height: 5px;
+  background: #64c8ef55;
+}
+.vapor-ribbon {
+  position: absolute;
+  width: 650px;
+  height: 180px;
+  border: 1px solid #4fc6ee1f;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff00, #b3e7ff24, #fff0);
+  animation: ribbon-drift 14s ease-in-out infinite alternate;
+  transform: rotate(-24deg);
+  pointer-events: none;
+}
+.ribbon-one {
+  top: 45%;
+  left: -160px;
+}
+.ribbon-two {
+  top: 0;
+  right: -220px;
+  animation-delay: -7s;
+}
+.is-paused * {
+  animation-play-state: paused !important;
+}
+.hero-grid {
+  position: relative;
+  z-index: 1;
+}
+.visual-orbit {
+  position: absolute;
+  inset: -23px -17px 22px -5px;
+  border: 1px solid #00a8e826;
+  border-radius: 45% 47% 43% 48%;
+  animation: orbit-breathe 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.visual-orbit:after {
+  content: "";
+  position: absolute;
+  inset: -13px;
+  border: 1px dashed #00a8e81c;
+  border-radius: inherit;
+}
+.hero-visual .photo-frame > img {
+  animation: photo-breathe 16s ease-in-out infinite alternate;
+  transform-origin: 53% 45%;
+}
+.photo-frame:after {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: linear-gradient(
+    110deg,
+    transparent 43%,
+    #ffffff00 46%,
+    #ffffff25 50%,
+    transparent 54%
+  );
+  transform: translateX(-45%);
+  animation: photo-light 9s ease-in-out infinite;
+  pointer-events: none;
+}
+.floating-card {
+  animation: glass-float 5s ease-in-out infinite;
+  transform-origin: center;
+  border-color: #b9e7fb90;
+}
+.circle-seal {
+  animation: seal-float 6s ease-in-out infinite;
+}
+.circle-seal:after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border: 1px solid #00a8e832;
+  border-radius: 50%;
+  animation: ring-breathe 4s ease-out infinite;
+}
+.location-badge {
+  position: relative;
+  overflow: hidden;
+  animation: badge-glow 4s ease-in-out infinite;
+}
+.live-dot {
+  animation: live-pulse 2.8s ease-in-out infinite;
+}
+.hero:has(.is-paused) .hero-visual *,
+.hero:has(.is-paused) .live-dot,
+.hero:has(.is-paused) .location-badge,
+.hero:has(.is-paused) .blue-line .title-word {
+  animation-play-state: paused;
+}
+.magnetic-link,
+.tilt-surface {
+  position: relative;
+  isolation: isolate;
+  transition:
+    box-shadow 0.3s,
+    border-color 0.3s,
+    background 0.3s;
+  touch-action: manipulation;
+}
+.magnetic-link {
+  overflow: hidden;
+}
+.magnetic-link:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, transparent 15%, #ffffff33 45%, transparent 70%);
+  transform: translateX(-110%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.magnetic-link:hover:before,
+.magnetic-link:focus-visible:before {
+  transform: translateX(110%);
+}
+.magnetic-link > svg:last-child {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.magnetic-link:hover > svg:last-child {
+  transform: translate(3px, -3px) rotate(5deg);
+}
+.hero .magnetic-link {
+  box-shadow: 0 8px 30px #0094d840;
+}
+.button-label {
+  position: relative;
+  z-index: 1;
+}
+.tilt-surface {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.tilt-surface .service-icon,
+.tilt-surface h3,
+.tilt-surface .service-number {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tilt-surface:hover .service-icon {
+  transform: translateZ(24px) rotate(-8deg);
+  background: #daf3ff;
+}
+.tilt-surface:hover h3 {
+  transform: translateZ(16px);
+  color: #087ab4;
+}
+.tilt-surface:hover .service-number {
+  transform: translateZ(18px);
+  color: #6bb5d9;
+}
+.service-card:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 90% 0%, #00b8e913, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.service-card:hover:after {
+  opacity: 1;
+}
+.service-link > span {
+  transition:
+    transform 0.35s,
+    background 0.35s,
+    color 0.35s;
+}
+.service-card:hover .service-link > span {
+  transform: rotate(45deg);
+  background: #078aca;
+  color: white;
+}
+.motion-reveal .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.center-heading .eyebrow {
+  justify-content: center;
+}
+.motion-reveal .eyebrow:before {
+  content: "";
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.75s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.motion-reveal.is-revealed .eyebrow:before {
+  width: 23px;
+}
+.benefit-card.is-revealed .benefit-icon {
+  animation: benefit-land 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.benefit-card:nth-child(2) .benefit-icon {
+  animation-delay: 0.1s;
+}
+.benefit-card:nth-child(3) .benefit-icon {
+  animation-delay: 0.2s;
+}
+.benefit-card:nth-child(4) .benefit-icon {
+  animation-delay: 0.3s;
+}
+.benefit-icon {
+  transition:
+    transform 0.4s,
+    box-shadow 0.4s;
+}
+.benefit-card:hover .benefit-icon {
+  transform: translateY(-7px) rotate(-6deg);
+  box-shadow: 0 12px 22px #087ec522;
+}
+.comparison-line > span {
+  transition: box-shadow 0.25s;
+  animation: handle-pulse 3s ease-in-out infinite;
+}
+.comparison:hover .comparison-line > span,
+.comparison:focus-within .comparison-line > span {
+  box-shadow:
+    0 0 0 8px #00a8e840,
+    0 6px 25px #003e6933;
+  animation: none;
+}
+.cta-banner.is-revealed .cta-decoration {
+  animation: cta-wind 12s ease-in-out infinite alternate;
+}
+.quote-form input,
+.quote-form textarea,
+.quote-form select {
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.quote-form input:focus,
+.quote-form textarea:focus,
+.quote-form select:focus {
+  box-shadow: 0 0 0 4px #00a8e811;
+  border-color: #6cc5e9;
+}
+.nav-links.is-open {
+  animation: menu-arrival 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.mobile-dock > a {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.mobile-dock > a:active {
+  transform: scale(0.95);
+}
+.desktop-wa:before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid #00a8e850;
+  border-radius: 50%;
+  animation: ring-breathe 4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes text-tide {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes particle-rise {
+  0% {
+    transform: translate3d(0, 90px, 0) scale(0.7);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  75% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(25px, -150px, 0) scale(1.1);
+    opacity: 0;
+  }
+}
+@keyframes ribbon-drift {
+  to {
+    transform: translate3d(80px, -55px, 0) rotate(-12deg) scale(1.12);
+  }
+}
+@keyframes orbit-breathe {
+  50% {
+    transform: rotate(8deg) scale(1.04);
+    border-radius: 49% 43% 49% 43%;
+  }
+}
+@keyframes photo-breathe {
+  to {
+    transform: scale(1.09) translate3d(-3px, -5px, 0);
+  }
+}
+@keyframes photo-light {
+  0%,
+  50% {
+    transform: translateX(-55%);
+  }
+  80%,
+  100% {
+    transform: translateX(55%);
+  }
+}
+@keyframes glass-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate3d(4px, -12px, 0) rotate(1deg);
+  }
+}
+@keyframes seal-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(10deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(3deg);
+  }
+}
+@keyframes ring-breathe {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+@keyframes badge-glow {
+  50% {
+    box-shadow: 0 0 24px #00a8e81c;
+  }
+}
+@keyframes live-pulse {
+  50% {
+    box-shadow: 0 0 0 7px #00a8e808;
+  }
+}
+@keyframes benefit-land {
+  0% {
+    transform: translateY(18px) rotate(-18deg) scale(0.75);
+  }
+  65% {
+    transform: translateY(-6px) rotate(5deg) scale(1.06);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes handle-pulse {
+  50% {
+    box-shadow:
+      0 0 0 8px #ffffff25,
+      0 2px 15px #0002;
+  }
+}
+@keyframes cta-wind {
+  to {
+    transform: translate3d(35px, -15px, 0) rotate(10deg);
+  }
+}
+@keyframes menu-arrival {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .steam-particle:nth-child(n + 7) {
+    display: none;
+  }
+  .vapor-ribbon {
+    width: 380px;
+    height: 100px;
+  }
+  .visual-orbit {
+    inset: -13px -2px 22px -2px;
+  }
+  .hero-visual .photo-frame > img {
+    animation-duration: 20s;
+  }
+  .floating-card {
+    animation-duration: 6s;
+  }
+  .hero-visual {
+    z-index: 1;
+    transform: none !important;
+  }
+  .title-line {
+    letter-spacing: inherit;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .steam-atmosphere,
+  .visual-orbit {
+    display: none;
+  }
+  .motion-reveal .eyebrow:before {
+    transition: none;
+  }
+  .title-word {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .photo-frame > img,
+  .floating-card,
+  .circle-seal {
+    animation: none !important;
+  }
+  .blue-line .title-word {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+  .magnetic-link:hover,
+  .tilt-surface:hover,
+  .tilt-surface:hover .service-icon,
+  .tilt-surface:hover h3,
+  .tilt-surface:hover .service-number,
+  .benefit-card:hover .benefit-icon {
+    transform: none !important;
+  }
+}
